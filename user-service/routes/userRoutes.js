@@ -15,6 +15,17 @@ router.post('/create', async(req, res) => {
         console.error('Error saving:', err);
         res.status(500).json(err);
     }
+});
+
+router.get('/all-users', async(req, res) => {
+    try{
+        const users = await User.find();
+        res.status(200).json(users);
+    }
+    catch(err){
+        console.error('Error saving:', err);
+        res.status(500).json(err);
+    }
 })
 
 export default router;
