@@ -23,6 +23,17 @@ services:
       - ./user-service/.env
     depends_on:
       - mongodb
+    
+  task-service:
+    build: ./task-service
+    container_name: task-service
+    restart: unless-stopped
+    ports:
+      - "6000:6000"
+    env_file:
+      - ./task-service/.env
+    depends_on:
+      - mongodb
 
 volumes:
   mongo_data:
