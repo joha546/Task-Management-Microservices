@@ -12,6 +12,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password1234
     volumes:
       - mongo_data:/data/db
+    # healthcheck:
+    #  test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #  interval: 10s
+    # timeout: 5s
+    # retries: 5
+    networks:
+      - backend
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -19,6 +26,15 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    # healthcheck:
+    # test: ["CMD", "rabbitmqctl", "status"]
+    # interval: 10s
+    #  timeout: 5s
+    #  retries: 5
+    networks:
+      - backend
 
   user-service:
     build: ./user-service
@@ -30,6 +46,13 @@ services:
       - ./user-service/.env
     depends_on:
       - mongodb
+    networks:
+      - backend
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     
   task-service:
     build: ./task-service
@@ -42,6 +65,13 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      - backend
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
   
   notification-service:
     build: ./notification-service
@@ -53,6 +83,18 @@ services:
       - ./notification-service/.env
     depends_on:
       - rabbitmq
-
+    networks:
+      - backend
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
 volumes:
   mongo_data:
+  rabbitmq_data:
+
+networks:
+  backend:
+    driver: bridge
