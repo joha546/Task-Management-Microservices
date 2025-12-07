@@ -42,6 +42,17 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+  
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    restart: unless-stopped
+    ports:
+      - "7000:7000"
+    env_file:
+      - ./notification-service/.env
+    depends_on:
+      - rabbitmq
 
 volumes:
   mongo_data:
