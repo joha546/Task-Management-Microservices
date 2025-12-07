@@ -12,4 +12,5 @@ export default{
         user: process.env.SMTP_USER || "user@example.com",
         pass: process.env.SMTP_PASS || "password"
   },
+  RABBITMQ_URL: process.env.RABBITMQ_URL
 }
