@@ -40,8 +40,8 @@ services:
     build: ./user-service
     container_name: user-service
     restart: unless-stopped
-    ports:
-      - "5000:5000"
+    # ports:
+    #  - "5000:5000"
     env_file:
       - ./user-service/.env
     depends_on:
@@ -58,8 +58,8 @@ services:
     build: ./task-service
     container_name: task-service
     restart: unless-stopped
-    ports:
-      - "6000:6000"
+    # ports:
+    #  - "6000:6000"
     env_file:
       - ./task-service/.env
     depends_on:
@@ -77,8 +77,8 @@ services:
     build: ./notification-service
     container_name: notification-service
     restart: unless-stopped
-    ports:
-      - "7000:7000"
+    # ports:
+    #  - "7000:7000"
     env_file:
       - ./notification-service/.env
     depends_on:
